@@ -18,7 +18,7 @@ export class addBrandDto {
   @MaxLength(1500)
   description: string;
 
-  @IsArray()
-  @IsUrl({}, { each: true })
-  links: string[];
+  // @IsArray()
+  // @IsUrl({}, { each: true })
+  // links: string[];
 }

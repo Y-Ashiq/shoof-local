@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
 
 @Schema({
   timestamps: true,
@@ -18,29 +19,32 @@ export class Brands {
   // categories: string[];
 
   @Prop({
-    type: [String],
+    type: [{ type: Types.ObjectId, ref: 'Tags' }],
     validate: [
       {
-        validator: function (tags: string[]) {
+        validator: function (tags: Types.ObjectId[]) {
           return Array.isArray(tags) && tags.length <= 10;
         },
         message: 'A brand can have at most 10 tags.',
       },
       {
-        validator: function (tags: string[]) {
-          return Array.isArray(tags) && new Set(tags).size === tags.length;
+        validator: function (tags: Types.ObjectId[]) {
+          return (
+            Array.isArray(tags) &&
+            new Set(tags.map(String)).size === tags.length
+          );
         },
         message: 'Tags must be unique.',
       },
     ],
   })
-  tags: string[];
+  tags: Types.ObjectId[];
 
   @Prop({
     type: [String],
   })
   links: string[];
-  
+
   @Prop({
     type: String,
     enum: ['pending', 'approved', 'rejected'],
@@ -48,10 +52,8 @@ export class Brands {
   })
   status: string;
 
-
   @Prop({ type: String, default: null })
   primaryColor: string;
- 
 }
 
 export const BrandSchema = SchemaFactory.createForClass(Brands);

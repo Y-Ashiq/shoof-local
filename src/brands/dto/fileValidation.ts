@@ -3,7 +3,7 @@ export const multerOptions = {
     fileSize: 1024 * 1024 * 5, // 5 MB
   },
   fileFilter: (req, file, callback) => {
-    if (!file.mimetype.match(/\/(jpg|jpeg|png|)$/)) {
+    if (!file.mimetype.match(/\/(jpeg|png|)$/)) {
       req.fileValidationError = 'Only image files are allowed!';
       return callback(null, false, new Error('Only image files are allowed!'));
     }

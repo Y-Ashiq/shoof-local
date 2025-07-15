@@ -17,6 +17,6 @@ export class AuthGuard implements CanActivate {
     if (apiKeyHeader === this.apiKey) {
       return true;
     }
-    throw new UnauthorizedException('Invalid API key');
+    throw new UnauthorizedException('UnAuthorized');
   }
 }
