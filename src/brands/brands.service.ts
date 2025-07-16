@@ -7,6 +7,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 const getColors = require('get-image-colors');
 import APIfeatures from '../util/APIfeatures';
+import { log } from 'console';
 
 @Injectable()
 export class BrandsService {
@@ -38,17 +39,18 @@ export class BrandsService {
     return 'File uploaded successfully!';
   }
 
- 
   /**
    * Searches for approved brands by keyword (case-insensitive).
    * @param keyword - Search term
    * @returns List of matching brands
    */
   async brandSearch(keyword: string, tags: string[]) {
-    let mongoQuery = this.brandModel.find({
-      name: { $regex: keyword, $options: 'i' },
-      status: 'approved',
-    });
+    let mongoQuery = this.brandModel
+      .find({
+        name: { $regex: keyword, $options: 'i' },
+        status: 'approved',
+      })
+      .populate('tags');
 
     const features = new APIfeatures(mongoQuery).filterByTags(tags);
 
@@ -61,21 +63,33 @@ export class BrandsService {
    * @returns List of brands
    */
   async getAllApprovedBrands(page: number, tags: string[]) {
-    const limit: number = 10;
-    let mongoQuery = this.brandModel.find({ status: 'approved' }).populate("tags");
+    const limit: number = 8;
+    let mongoQuery = this.brandModel
+      .find({ status: 'approved' })
+      .populate('tags');
 
-    const features = new APIfeatures(mongoQuery).filterByTags(tags).pagination(page, limit);
+    const features = new APIfeatures(mongoQuery).filterByTags(tags);
 
-    return await features.getQuery();
+    const totalPages = await features.getTotalPages(limit);
+    features.pagination(page, limit);
+
+    return { brands: await features.getQuery(), totalPages };
   }
 
   /**
-   * Retrieves all brands for dashboard (no status filter).
+   * Retrieves all brands for dashboard (with status filter).
    * @returns List of all brands
    */
-  getAllBrandsForDashboard() {
-    let brands = this.brandModel.find();
-    return brands;
+  async getAllBrandsForDashboard(page: number, status: string) {
+    const limit: number = 8;
+    let mongoQuery = this.brandModel.find();
+
+    const features = new APIfeatures(mongoQuery).filterByStatus(status);
+
+    const totalPages = await features.getTotalPages(limit);
+    features.pagination(page, limit);
+
+    return { brands: await features.getQuery(), totalPages };
   }
 
   /**
@@ -85,11 +99,27 @@ export class BrandsService {
    * @throws Error if not found
    */
   getBrandById(id: string) {
-    const brand = this.brandModel.findById(id);
+    const brand = this.brandModel.findById(id).populate('tags');
     if (!brand) {
       throw new Error('Brand not found');
     }
     return brand;
+  }
+
+  async brandDashboardSearch(search: string, status: string) {
+    let filter: any = {
+      name: { $regex: search, $options: 'i' },
+    };
+
+    if (status) {
+      filter.status = status;
+    }
+
+    let mongoQuery = this.brandModel.find(filter);
+
+    const features = new APIfeatures(mongoQuery);
+
+    return await features.getQuery();
   }
 
   /**

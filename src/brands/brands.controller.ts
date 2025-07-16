@@ -40,20 +40,15 @@ export class BrandsController {
     @Query('page') page: number,
     @Query('tags') tags: string[],
   ) {
-    console.log(tags);
-    
+
     return this.brandsService.getAllApprovedBrands(page, tags);
   }
 
   // GET /brands/search - Search brands by a search query
   @Get('brands/search/')
-  brandSearch(
-    @Query('search') search: string, 
-    @Query('tags') tags: string[]) {
-      console.log(tags);
-      
+  brandSearch(@Query('search') search: string, @Query('tags') tags: string[]) {
 
-    return this.brandsService.brandSearch(search,tags);
+    return this.brandsService.brandSearch(search, tags);
   }
   // POST /submit-brand - Submit a new brand with an uploaded file
   @Post('submit-brand')
@@ -74,8 +69,9 @@ export class BrandsController {
   // GET /dashboard/brands - Get all brands for dashboard (protected by AuthGuard)
   @Get('dashboard/brands')
   @UseGuards(AuthGuard)
-  getAllBrandsForDashboard() {
-    return this.brandsService.getAllBrandsForDashboard();
+  getAllBrandsForDashboard(@Query('page') page: number,
+    @Query('status') status: string,) {
+    return this.brandsService.getAllBrandsForDashboard(page,status);
   }
 
   // DELETE /dashboard/brands/:id - Delete a brand by ID (protected by AuthGuard)
@@ -89,5 +85,12 @@ export class BrandsController {
   @UseGuards(AuthGuard)
   updateBrand(@Param('id') id: string, @Body() body: any) {
     return this.brandsService.updateBrand(id, body);
+  }
+
+   @Get('dashboard/brands/search/')
+  brandDashboardSearch(@Query('search') search: string,@Query('status') status: string) {
+    
+
+    return this.brandsService.brandDashboardSearch(search,status);
   }
 }

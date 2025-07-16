@@ -19,13 +19,20 @@ class APIfeatures {
     return this;
   }
 
+  filterByStatus(status?: string) {
+    if (status) {
+      this.mongoQuery = this.mongoQuery.find({ status });
+    }
+    return this;
+  }
+
   /**
    * Applies pagination to the Mongoose query.
    * @param page - The page number (1-based)
    * @param limit - Number of items per page
    * @returns this (for chaining)
    */
-  pagination(page: number = 1, limit: number = 10) {
+  pagination(page: number, limit: number) {
     const skip = (page - 1) * limit;
     this.mongoQuery = this.mongoQuery.skip(skip).limit(limit);
     return this;
@@ -36,6 +43,16 @@ class APIfeatures {
    */
   getQuery() {
     return this.mongoQuery;
+  }
+
+  /**
+   * Calculates total pages based on the current query and limit.
+   * @param limit - Number of items per page
+   * @returns Total number of pages
+   */
+  async getTotalPages(limit: number): Promise<number> {
+    const totalDoc = await this.mongoQuery.clone().countDocuments();
+    return Math.ceil(totalDoc / limit);
   }
 }
 
