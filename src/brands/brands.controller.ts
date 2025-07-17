@@ -87,10 +87,5 @@ export class BrandsController {
     return this.brandsService.updateBrand(id, body);
   }
 
-   @Get('dashboard/brands/search/')
-  brandDashboardSearch(@Query('search') search: string,@Query('status') status: string) {
-    
 
-    return this.brandsService.brandDashboardSearch(search,status);
-  }
 }

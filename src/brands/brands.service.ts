@@ -71,6 +71,7 @@ export class BrandsService {
     const features = new APIfeatures(mongoQuery).filterByTags(tags);
 
     const totalPages = await features.getTotalPages(limit);
+
     features.pagination(page, limit);
 
     return { brands: await features.getQuery(), totalPages };

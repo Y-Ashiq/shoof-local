@@ -8,7 +8,7 @@ import { TagsModule } from './tags/tags.module';
 
 
 @Module({
-  imports: [ BrandsModule, MongooseModule.forRoot('mongodb://localhost/shoof'), TagsModule],
+  imports: [ BrandsModule, MongooseModule.forRoot(`${process.env.ATLAS_URI}`), TagsModule],
   controllers: [AppController],
   providers: [AppService],
 })
