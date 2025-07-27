@@ -9,17 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addBrandDto = void 0;
+exports.PatchBrandDto = exports.addBrandDto = void 0;
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class addBrandDto {
     name;
     description;
+    links;
 }
 exports.addBrandDto = addBrandDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(3),
     (0, class_validator_1.MaxLength)(50),
+    (0, class_transformer_1.Transform)(({ value }) => value?.trim()),
     __metadata("design:type", String)
 ], addBrandDto.prototype, "name", void 0);
 __decorate([
@@ -28,4 +31,34 @@ __decorate([
     (0, class_validator_1.MaxLength)(1500),
     __metadata("design:type", String)
 ], addBrandDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsUrl)({}, { each: true }),
+    __metadata("design:type", Array)
+], addBrandDto.prototype, "links", void 0);
+class PatchBrandDto {
+    name;
+    description;
+    links;
+}
+exports.PatchBrandDto = PatchBrandDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(3),
+    (0, class_validator_1.MaxLength)(50),
+    (0, class_transformer_1.Transform)(({ value }) => value?.trim()),
+    __metadata("design:type", String)
+], PatchBrandDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(10),
+    (0, class_validator_1.MaxLength)(1500),
+    __metadata("design:type", String)
+], PatchBrandDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)({}, { each: true }),
+    __metadata("design:type", Array)
+], PatchBrandDto.prototype, "links", void 0);
 //# sourceMappingURL=brands.dto.js.map

@@ -1,5 +1,5 @@
 import { BrandsService } from './brands.service';
-import { addBrandDto } from './dto/brands.dto';
+import { addBrandDto, PatchBrandDto } from './dto/brands.dto';
 export declare class BrandsController {
     private readonly brandsService;
     constructor(brandsService: BrandsService);
@@ -23,7 +23,7 @@ export declare class BrandsController {
         totalPages: number;
     }>;
     deleteBrand(id: string): Promise<string>;
-    updateBrand(id: string, body: any): Promise<import("mongoose").Document<unknown, {}, import("../schemas/brand.schema").Brands, {}> & import("../schemas/brand.schema").Brands & {
+    updateBrand(id: string, body: PatchBrandDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/brand.schema").Brands, {}> & import("../schemas/brand.schema").Brands & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;

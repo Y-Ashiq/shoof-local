@@ -17,7 +17,7 @@ const brands_service_1 = require("./brands.service");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const brands_dto_1 = require("./dto/brands.dto");
-const fileValidation_1 = require("./dto/fileValidation");
+const fileValidation_1 = require("../util/fileValidation");
 const auth_guard_1 = require("../guard/auth.guard");
 let BrandsController = class BrandsController {
     brandsService;
@@ -102,7 +102,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, brands_dto_1.PatchBrandDto]),
     __metadata("design:returntype", void 0)
 ], BrandsController.prototype, "updateBrand", null);
 exports.BrandsController = BrandsController = __decorate([

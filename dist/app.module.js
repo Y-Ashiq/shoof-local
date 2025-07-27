@@ -13,12 +13,13 @@ const app_service_1 = require("./app.service");
 const brands_module_1 = require("./brands/brands.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const tags_module_1 = require("./tags/tags.module");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [brands_module_1.BrandsModule, mongoose_1.MongooseModule.forRoot(`${process.env.ATLAS_URI}`), tags_module_1.TagsModule],
+        imports: [brands_module_1.BrandsModule, mongoose_1.MongooseModule.forRoot(`${process.env.ATLAS_URI}`), tags_module_1.TagsModule, auth_module_1.AuthModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

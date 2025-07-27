@@ -7,7 +7,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 const getColors = require('get-image-colors');
 import APIfeatures from '../util/APIfeatures';
-import { log } from 'console';
 
 @Injectable()
 export class BrandsService {

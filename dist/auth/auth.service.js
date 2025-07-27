@@ -9,23 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CategorySchema = exports.Category = void 0;
-const mongoose_1 = require("@nestjs/mongoose");
-let Category = class Category {
-    name;
-    description;
+exports.AuthService = void 0;
+const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
+let AuthService = class AuthService {
+    jwtService;
+    constructor(jwtService) {
+        this.jwtService = jwtService;
+    }
+    async signIn(username, password) {
+        if (username !== process.env.username &&
+            password !== process.env.password) {
+            throw new common_1.UnauthorizedException('wrong username or password');
+        }
+        const payload = { username };
+        return { access_token: await this.jwtService.signAsync(payload) };
+    }
 };
-exports.Category = Category;
-__decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
-    __metadata("design:type", String)
-], Category.prototype, "name", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Category.prototype, "description", void 0);
-exports.Category = Category = __decorate([
-    (0, mongoose_1.Schema)({ timestamps: true, versionKey: false })
-], Category);
-exports.CategorySchema = mongoose_1.SchemaFactory.createForClass(Category);
-//# sourceMappingURL=category.schema.js.map
+exports.AuthService = AuthService;
+exports.AuthService = AuthService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [jwt_1.JwtService])
+], AuthService);
+//# sourceMappingURL=auth.service.js.map

@@ -26,8 +26,8 @@ import {
   Patch,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { addBrandDto } from './dto/brands.dto';
-import { multerOptions } from './dto/fileValidation';
+import { addBrandDto, PatchBrandDto } from './dto/brands.dto';
+import { multerOptions } from '../util/fileValidation';
 import { AuthGuard } from 'src/guard/auth.guard';
 
 @Controller()
@@ -83,7 +83,7 @@ export class BrandsController {
   // PATCH /dashboard/brands/:id - Update a brand by ID (protected by AuthGuard)
   @Patch('dashboard/brands/:id')
   @UseGuards(AuthGuard)
-  updateBrand(@Param('id') id: string, @Body() body: any) {
+  updateBrand(@Param('id') id: string, @Body() body: PatchBrandDto) {
     return this.brandsService.updateBrand(id, body);
   }
 
