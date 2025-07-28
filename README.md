@@ -1,98 +1,148 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Shoof Local Client
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A modern, responsive web application for browsing and managing local brands. Built with Next.js 15, React 19, TypeScript, and Tailwind CSS.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Features
 
-## Description
+### Public Features
+- **Brand Discovery**: Browse a curated collection of local brands with beautiful card-based UI
+- **Advanced Search**: Real-time search functionality with instant results
+- **Tag Filtering**: Filter brands by categories using an intuitive tag system
+- **Responsive Design**: Fully responsive layout that works on desktop, tablet, and mobile
+- **Brand Details**: Click on any brand to view detailed information in a modal
+- **Social Media Integration**: Direct links to brand social media profiles with custom icons
+- **Pagination**: Navigate through large collections of brands efficiently
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Admin Features
+- **Dashboard**: Secure admin panel for brand management
+- **Brand Management**: Add, edit, and delete brands
+- **Status Control**: Manage brand approval status (pending, approved, rejected)
+- **Search & Filter**: Advanced search and filtering capabilities in the admin panel
+- **Authentication**: Secure login system for admin access
 
-## Project setup
+## 🛠️ Tech Stack
 
-```bash
-$ npm install
-```
+- **Framework**: Next.js 15.3.5
+- **Language**: TypeScript
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **Fonts**: Geist Sans, Geist Mono, Abril Fatface
+- **Deployment**: Vercel-ready configuration
 
-## Compile and run the project
+## 📦 Installation
 
-```bash
-# development
-$ npm run start
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd shoof-local-client
+   ```
 
-# watch mode
-$ npm run start:dev
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-# production mode
-$ npm run start:prod
-```
+3. **Set up environment variables**
+   Create a `.env.local` file in the root directory:
+   ```env
+   NEXT_PUBLIC_API_URL=https://shoof-local.onrender.com
+   ```
 
-## Run tests
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-```bash
-# unit tests
-$ npm run test
+   The application will be available at `http://localhost:4000`
 
-# e2e tests
-$ npm run test:e2e
 
-# test coverage
-$ npm run test:cov
-```
+## 🎨 Key Components
 
-## Deployment
+### BrandCard
+- Displays brand information in an attractive card format
+- Supports custom brand colors and contrast calculation
+- Shows brand image, name, description, and tags
+- Clickable to open detailed modal
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### BrandModal
+- Detailed view of brand information
+- Social media links with custom icons
+- Responsive design for all screen sizes
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### TagFilter
+- Interactive tag filtering system
+- URL-synchronized state management
+- Dropdown interface for tag selection
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+### Navbar
+- Search functionality with live results
+- Responsive navigation design
+- Brand logo and navigation links
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🔧 Available Scripts
 
-## Resources
+- `npm run dev` - Start development server on port 4000
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🌐 API Integration
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+The application integrates with a backend API hosted at `https://shoof-local.onrender.com`:
 
-## Support
+- **Brands**: Fetch, search, and filter brands
+- **Tags**: Retrieve available tags for filtering
+- **Authentication**: Admin login and token management
+- **Dashboard**: Admin-only brand management endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🎯 Features in Detail
 
-## Stay in touch
+### Search & Filtering
+- Real-time search with debounced API calls
+- Tag-based filtering with URL synchronization
+- Combined search and filter functionality
+- Responsive search results display
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Brand Display
+- Grid layout with responsive breakpoints
+- Custom brand colors with automatic contrast calculation
+- Tag display with overflow handling
+- Loading states and error handling
 
-## License
+### Admin Dashboard
+- Secure authentication required
+- Brand status management (pending/approved/rejected)
+- Bulk operations and individual brand editing
+- Search and filter capabilities
+- Pagination for large datasets
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 🚀 Deployment
+
+The application is configured for easy deployment on Vercel:
+
+1. Connect your repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue in the repository
+- Contact the development team
+- Check the documentation for common issues
+
+---
+
+Built with ❤️ using Next.js and React
