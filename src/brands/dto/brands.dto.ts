@@ -51,4 +51,8 @@ export class PatchBrandDto {
   @IsArray()
   @IsString({ each: true })
   tags?: string[];
+
+  @IsOptional()
+  @IsString()
+  status?: string;
 }
