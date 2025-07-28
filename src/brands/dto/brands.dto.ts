@@ -5,6 +5,7 @@ import {
   MaxLength,
   MinLength,
   IsOptional,
+  IsArray,
 } from 'class-validator';
 
 export class addBrandDto {
@@ -21,6 +22,11 @@ export class addBrandDto {
 
   @IsUrl({}, { each: true })
   links: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
 }
 
 export class PatchBrandDto {
@@ -40,4 +46,9 @@ export class PatchBrandDto {
   @IsOptional()
   @IsUrl({}, { each: true })
   links?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
 }
