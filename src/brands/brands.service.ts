@@ -62,7 +62,7 @@ export class BrandsService {
    * @returns List of brands
    */
   async getAllApprovedBrands(page: number, tags: string[]) {
-    const limit: number = 8;
+    const limit: number = 12;
     let mongoQuery = this.brandModel
       .find({ status: 'approved' })
       .populate('tags');
@@ -81,7 +81,7 @@ export class BrandsService {
    * @returns List of all brands
    */
   async getAllBrandsForDashboard(page: number, status: string) {
-    const limit: number = 8;
+    const limit: number = 12;
     let mongoQuery = this.brandModel.find();
 
     const features = new APIfeatures(mongoQuery).filterByStatus(status);
