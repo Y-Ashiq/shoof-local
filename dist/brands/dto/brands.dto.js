@@ -16,6 +16,7 @@ class addBrandDto {
     name;
     description;
     links;
+    tags;
 }
 exports.addBrandDto = addBrandDto;
 __decorate([
@@ -35,10 +36,18 @@ __decorate([
     (0, class_validator_1.IsUrl)({}, { each: true }),
     __metadata("design:type", Array)
 ], addBrandDto.prototype, "links", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    __metadata("design:type", Array)
+], addBrandDto.prototype, "tags", void 0);
 class PatchBrandDto {
     name;
     description;
     links;
+    tags;
+    status;
 }
 exports.PatchBrandDto = PatchBrandDto;
 __decorate([
@@ -61,4 +70,15 @@ __decorate([
     (0, class_validator_1.IsUrl)({}, { each: true }),
     __metadata("design:type", Array)
 ], PatchBrandDto.prototype, "links", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    __metadata("design:type", Array)
+], PatchBrandDto.prototype, "tags", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], PatchBrandDto.prototype, "status", void 0);
 //# sourceMappingURL=brands.dto.js.map

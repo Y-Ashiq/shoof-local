@@ -22,10 +22,13 @@ const fs = require("fs");
 const path = require("path");
 const getColors = require('get-image-colors');
 const APIfeatures_1 = require("../util/APIfeatures");
+const cache_manager_1 = require("@nestjs/cache-manager");
 let BrandsService = class BrandsService {
     brandModel;
-    constructor(brandModel) {
+    cacheManager;
+    constructor(brandModel, cacheManager) {
         this.brandModel = brandModel;
+        this.cacheManager = cacheManager;
     }
     async addBrand(file, body) {
         const imgURl = await imagekit_config_1.imagekit.upload({
@@ -53,17 +56,24 @@ let BrandsService = class BrandsService {
         return await features.getQuery();
     }
     async getAllApprovedBrands(page, tags) {
-        const limit = 8;
-        let mongoQuery = this.brandModel
-            .find({ status: 'approved' })
-            .populate('tags');
-        const features = new APIfeatures_1.default(mongoQuery).filterByTags(tags);
-        const totalPages = await features.getTotalPages(limit);
-        features.pagination(page, limit);
-        return { brands: await features.getQuery(), totalPages };
+        const data = await this.cacheManager.get('brands');
+        let totalPages = 0;
+        if (!data) {
+            const limit = 12;
+            let mongoQuery = this.brandModel
+                .find({ status: 'approved' })
+                .populate('tags');
+            const features = new APIfeatures_1.default(mongoQuery).filterByTags(tags);
+            totalPages = await features.getTotalPages(limit);
+            features.pagination(page, limit);
+            return { brands: await features.getQuery(), totalPages };
+        }
+        else {
+            return { brands: data, totalPages };
+        }
     }
     async getAllBrandsForDashboard(page, status) {
-        const limit = 8;
+        const limit = 12;
         let mongoQuery = this.brandModel.find();
         const features = new APIfeatures_1.default(mongoQuery).filterByStatus(status);
         const totalPages = await features.getTotalPages(limit);
@@ -109,6 +119,7 @@ exports.BrandsService = BrandsService;
 exports.BrandsService = BrandsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(brand_schema_1.Brands.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(1, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
+    __metadata("design:paramtypes", [mongoose_2.Model, Object])
 ], BrandsService);
 //# sourceMappingURL=brands.service.js.map

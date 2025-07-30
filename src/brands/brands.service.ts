@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { imagekit } from '../util/imagekit.config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Brands } from 'src/schemas/brand.schema';
@@ -7,10 +7,15 @@ import * as fs from 'fs';
 import * as path from 'path';
 const getColors = require('get-image-colors');
 import APIfeatures from '../util/APIfeatures';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class BrandsService {
-  constructor(@InjectModel(Brands.name) private brandModel: Model<Brands>) {}
+  constructor(
+    @InjectModel(Brands.name) private brandModel: Model<Brands>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   /**
    * Uploads a brand image, extracts primary color, and creates a new brand document.
@@ -62,18 +67,23 @@ export class BrandsService {
    * @returns List of brands
    */
   async getAllApprovedBrands(page: number, tags: string[]) {
-    const limit: number = 12;
-    let mongoQuery = this.brandModel
-      .find({ status: 'approved' })
-      .populate('tags');
+    const data = await this.cacheManager.get('brands');
+    let totalPages: number = 0;
+    if (!data) {
+      const limit: number = 12;
+      let mongoQuery = this.brandModel
+        .find({ status: 'approved' })
+        .populate('tags');
 
-    const features = new APIfeatures(mongoQuery).filterByTags(tags);
+      const features = new APIfeatures(mongoQuery).filterByTags(tags);
 
-    const totalPages = await features.getTotalPages(limit);
+      totalPages = await features.getTotalPages(limit);
 
-    features.pagination(page, limit);
-
-    return { brands: await features.getQuery(), totalPages };
+      features.pagination(page, limit);
+      return { brands: await features.getQuery(), totalPages };
+    } else {
+      return { brands: data, totalPages };
+    }
   }
 
   /**

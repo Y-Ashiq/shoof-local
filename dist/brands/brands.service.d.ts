@@ -1,8 +1,10 @@
 import { Brands } from 'src/schemas/brand.schema';
 import { Model } from 'mongoose';
+import { Cache } from 'cache-manager';
 export declare class BrandsService {
     private brandModel;
-    constructor(brandModel: Model<Brands>);
+    private cacheManager;
+    constructor(brandModel: Model<Brands>, cacheManager: Cache);
     addBrand(file: Express.Multer.File, body: any): Promise<string>;
     brandSearch(keyword: string, tags: string[]): Promise<any>;
     getAllApprovedBrands(page: number, tags: string[]): Promise<{
