@@ -11,7 +11,7 @@ import { CacheableMemory } from 'cacheable';
         return {
           stores: [
             new Keyv({
-              store: new CacheableMemory({ ttl: 50000, lruSize: 5000 }),
+              store: new CacheableMemory({ ttl: 12000, lruSize: 5000 }),
             }),
             createKeyv(process.env.REDIS_CLOUD),
           ],
