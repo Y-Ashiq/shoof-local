@@ -5,18 +5,11 @@ import { Keyv } from 'keyv';
 import { CacheableMemory } from 'cacheable';
 
 @Module({
-  imports: [
-    CacheModule.registerAsync({isGlobal:true,
-      useFactory: async () => {
-        return {
-          stores: [
-            new Keyv({
-              store: new CacheableMemory({ ttl: 12000, lruSize: 5000 }),
-            }),
-            createKeyv(process.env.REDIS_CLOUD),
-          ],
-        };
-      },
+   imports: [
+    CacheModule.register({
+      isGlobal:true,
+      ttl: 60000, // seconds
+      max: 100, // max items in cache
     }),
   ],
 })

@@ -67,28 +67,29 @@ export class BrandsService {
    * @returns List of brands
    */
   async getAllApprovedBrands(page: number, tags: string[]) {
-    let data = await this.cacheManager.get('brands');
-    let totalPages: number = 0;
-    
-    if (!data) {
+    const limit: number = 12;
 
-      const limit: number = 12;
-      let mongoQuery = this.brandModel
-        .find({ status: 'approved' })
-        .populate('tags');
+    const tagKey = tags?.sort().join(',') || " ";
+    const cacheKey = `brands:${tagKey}:page:${page}`;
 
-      const features = new APIfeatures(mongoQuery).filterByTags(tags);
+    const cached = await this.cacheManager.get(cacheKey);
+    if (cached) return cached;
 
-      totalPages = await features.getTotalPages(limit);
+    let mongoQuery = this.brandModel
+      .find({ status: 'approved' })
+      .populate('tags');
 
-      features.pagination(page, limit);
-      const brands =await features.getQuery()
-      data = await this.cacheManager.set("brands",brands)
-      return { brands , totalPages };
-    } else {
+    const features = new APIfeatures(mongoQuery).filterByTags(tags);
+    let totalPages = await features.getTotalPages(limit);
+    features.pagination(page, limit);
 
-      return { brands: data, totalPages };
-    }
+    const brands = await features.getQuery();
+
+    const result = { brands, totalPages };
+
+    await this.cacheManager.set(cacheKey, result);
+
+    return result;
   }
 
   /**

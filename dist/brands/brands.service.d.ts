@@ -7,10 +7,7 @@ export declare class BrandsService {
     constructor(brandModel: Model<Brands>, cacheManager: Cache);
     addBrand(file: Express.Multer.File, body: any): Promise<string>;
     brandSearch(keyword: string, tags: string[]): Promise<any>;
-    getAllApprovedBrands(page: number, tags: string[]): Promise<{
-        brands: any;
-        totalPages: number;
-    }>;
+    getAllApprovedBrands(page: number, tags: string[]): Promise<{}>;
     getAllBrandsForDashboard(page: number, status: string): Promise<{
         brands: any;
         totalPages: number;

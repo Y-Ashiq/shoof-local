@@ -56,23 +56,22 @@ let BrandsService = class BrandsService {
         return await features.getQuery();
     }
     async getAllApprovedBrands(page, tags) {
-        let data = await this.cacheManager.get('brands');
-        let totalPages = 0;
-        if (!data) {
-            const limit = 12;
-            let mongoQuery = this.brandModel
-                .find({ status: 'approved' })
-                .populate('tags');
-            const features = new APIfeatures_1.default(mongoQuery).filterByTags(tags);
-            totalPages = await features.getTotalPages(limit);
-            features.pagination(page, limit);
-            const brands = await features.getQuery();
-            data = await this.cacheManager.set("brands", brands);
-            return { brands, totalPages };
-        }
-        else {
-            return { brands: data, totalPages };
-        }
+        const limit = 12;
+        const tagKey = tags?.sort().join(',') || " ";
+        const cacheKey = `brands:${tagKey}:page:${page}`;
+        const cached = await this.cacheManager.get(cacheKey);
+        if (cached)
+            return cached;
+        let mongoQuery = this.brandModel
+            .find({ status: 'approved' })
+            .populate('tags');
+        const features = new APIfeatures_1.default(mongoQuery).filterByTags(tags);
+        let totalPages = await features.getTotalPages(limit);
+        features.pagination(page, limit);
+        const brands = await features.getQuery();
+        const result = { brands, totalPages };
+        await this.cacheManager.set(cacheKey, result);
+        return result;
     }
     async getAllBrandsForDashboard(page, status) {
         const limit = 12;
