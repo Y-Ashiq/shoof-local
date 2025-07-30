@@ -23,7 +23,7 @@ exports.CacheConfigModule = CacheConfigModule = __decorate([
                     return {
                         stores: [
                             new keyv_1.Keyv({
-                                store: new cacheable_1.CacheableMemory({ ttl: 50000, lruSize: 5000 }),
+                                store: new cacheable_1.CacheableMemory({ ttl: 12000, lruSize: 5000 }),
                             }),
                             (0, redis_1.createKeyv)(process.env.REDIS_CLOUD),
                         ],

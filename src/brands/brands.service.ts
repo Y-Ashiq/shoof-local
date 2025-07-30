@@ -67,9 +67,11 @@ export class BrandsService {
    * @returns List of brands
    */
   async getAllApprovedBrands(page: number, tags: string[]) {
-    const data = await this.cacheManager.get('brands');
+    let data = await this.cacheManager.get('brands');
     let totalPages: number = 0;
+    
     if (!data) {
+
       const limit: number = 12;
       let mongoQuery = this.brandModel
         .find({ status: 'approved' })
@@ -80,8 +82,11 @@ export class BrandsService {
       totalPages = await features.getTotalPages(limit);
 
       features.pagination(page, limit);
-      return { brands: await features.getQuery(), totalPages };
+      const brands =await features.getQuery()
+      data = await this.cacheManager.set("brands",brands)
+      return { brands , totalPages };
     } else {
+
       return { brands: data, totalPages };
     }
   }

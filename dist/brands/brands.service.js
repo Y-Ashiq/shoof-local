@@ -56,7 +56,7 @@ let BrandsService = class BrandsService {
         return await features.getQuery();
     }
     async getAllApprovedBrands(page, tags) {
-        const data = await this.cacheManager.get('brands');
+        let data = await this.cacheManager.get('brands');
         let totalPages = 0;
         if (!data) {
             const limit = 12;
@@ -66,7 +66,9 @@ let BrandsService = class BrandsService {
             const features = new APIfeatures_1.default(mongoQuery).filterByTags(tags);
             totalPages = await features.getTotalPages(limit);
             features.pagination(page, limit);
-            return { brands: await features.getQuery(), totalPages };
+            const brands = await features.getQuery();
+            data = await this.cacheManager.set("brands", brands);
+            return { brands, totalPages };
         }
         else {
             return { brands: data, totalPages };
