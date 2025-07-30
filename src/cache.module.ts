@@ -8,7 +8,7 @@ import { CacheableMemory } from 'cacheable';
    imports: [
     CacheModule.register({
       isGlobal:true,
-      ttl: 60000, // seconds
+      ttl: 300000, // seconds
       max: 100, // max items in cache
     }),
   ],

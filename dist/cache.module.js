@@ -17,7 +17,7 @@ exports.CacheConfigModule = CacheConfigModule = __decorate([
         imports: [
             cache_manager_1.CacheModule.register({
                 isGlobal: true,
-                ttl: 60000,
+                ttl: 300000,
                 max: 100,
             }),
         ],
