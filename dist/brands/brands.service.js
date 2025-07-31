@@ -57,7 +57,7 @@ let BrandsService = class BrandsService {
     }
     async getAllApprovedBrands(page, tags) {
         const limit = 12;
-        const tagKey = tags?.sort().join(',') || " ";
+        const tagKey = [tags].sort().join(',') || " ";
         const cacheKey = `brands:${tagKey}:page:${page}`;
         const cached = await this.cacheManager.get(cacheKey);
         if (cached)

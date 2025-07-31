@@ -68,12 +68,12 @@ export class BrandsService {
    */
   async getAllApprovedBrands(page: number, tags: string[]) {
     const limit: number = 12;
+    const isCacheable = page === 1;
 
-    const tagKey = tags?.sort().join(',') || " ";
-    const cacheKey = `brands:${tagKey}:page:${page}`;
-
-    const cached = await this.cacheManager.get(cacheKey);
-    if (cached) return cached;
+    if (isCacheable) {
+      const cached = await this.cacheManager.get('brands');
+      if (cached) return cached;
+    }
 
     let mongoQuery = this.brandModel
       .find({ status: 'approved' })
@@ -87,8 +87,9 @@ export class BrandsService {
 
     const result = { brands, totalPages };
 
-    await this.cacheManager.set(cacheKey, result);
-
+    if (isCacheable) {
+      await this.cacheManager.set('brands', result); // cache for 5 minutes
+    }
     return result;
   }
 
